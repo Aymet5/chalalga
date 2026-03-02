@@ -142,12 +142,19 @@ export default function App() {
           <section className="h-screen flex flex-col items-center justify-center relative px-6">
             <div className="absolute inset-0 z-0">
               <img 
-                src="https://images.unsplash.com/photo-1519074063912-ad25b57b984a?q=80&w=1920&auto=format&fit=crop" 
-                alt="Background" 
-                className="w-full h-full object-cover opacity-20"
+                src="https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=1920&auto=format&fit=crop" 
+                alt="Tuvan Mountains" 
+                className="w-full h-full object-cover opacity-30"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#fdfbf7]/50 to-[#fdfbf7]" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#fdfbf7]/60 to-[#fdfbf7]" />
+            </div>
+
+            {/* Tuvan Ornament Accent */}
+            <div className="absolute top-20 left-1/2 -translate-x-1/2 opacity-20 w-64 h-64 pointer-events-none">
+               <svg viewBox="0 0 100 100" className="fill-gold">
+                 <path d="M50 0 L60 40 L100 50 L60 60 L50 100 L40 60 L0 50 L40 40 Z" />
+               </svg>
             </div>
 
             <motion.div 
@@ -156,7 +163,7 @@ export default function App() {
               transition={{ delay: 0.5, duration: 1 }}
               className="z-10 text-center max-w-2xl"
             >
-              <span className="text-gold font-medium tracking-[0.3em] uppercase text-sm mb-6 block">Чалалга</span>
+              <span className="text-gold font-medium tracking-[0.3em] uppercase text-sm mb-6 block">Хүндүлүг аалчылар!</span>
               <h1 className="font-serif text-6xl md:text-8xl mb-4 text-dark">Иргит Игорь</h1>
               <div className="flex items-center justify-center gap-4 mb-8">
                 <div className="h-[1px] w-12 bg-gold/50" />
@@ -164,10 +171,14 @@ export default function App() {
                 <div className="h-[1px] w-12 bg-gold/50" />
               </div>
               
+              <p className="text-xl md:text-2xl font-serif italic mb-8 text-dark/80">
+                "Бодумнуң 40 харлаан оюн-дойумче Силерни хүндүткел-биле чалап тур мен!"
+              </p>
+
               <div className="mt-12 space-y-4">
                 <div className="flex items-center justify-center gap-2 text-dark/70">
                   <Calendar className="w-4 h-4 text-gold" />
-                  <span className="tracking-wide">2026 чылдың Март 15</span>
+                  <span className="tracking-wide">2026 чылдың Март 15, 17:00</span>
                 </div>
                 <div className="flex items-center justify-center gap-2 text-dark/70">
                   <MapPin className="w-4 h-4 text-gold" />
