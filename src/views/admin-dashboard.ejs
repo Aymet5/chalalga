@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Админ-панель</title>
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <h1>📊 Админ-панель заявок</h1>
+      <p>Отчёты, просмотр имён по хуралу, экспорт и печать</p>
+    </div>
+
+    <div class="links tools">
+      <a href="/admin/export.csv"><button>⬇️ Экспорт CSV</button></a>
+      <a href="/admin/slot-print?dateISO=<%= dateISO %>&time=<%= time %>" target="_blank"><button>🖨 Печать выбранного хурала</button></a>
+      <button onclick="window.print()">🖨 Печать текущей страницы</button>
+      <form method="post" action="/admin/logout"><button type="submit">🚪 Выйти</button></form>
+    </div>
+
+    <section class="stats">
+      <div class="stat"><div>Всего заявок</div><b><%= report.total_orders %></b></div>
+      <div class="stat"><div>Оплачено</div><b><%= report.paid_count %></b></div>
+      <div class="stat"><div>Сумма оплат</div><b><%= report.paid_sum %> ₽</b></div>
+      <div class="stat"><div>Telegram</div><b><%= report.telegram_count %></b></div>
+      <div class="stat"><div>Сайт</div><b><%= report.website_count %></b></div>
+    </section>
+
+    <section class="card">
+      <h2>Просмотр имён на конкретный хурал/час</h2>
+      <form class="slot-form" method="get" action="/admin">
+        <label>Дата</label>
+        <select name="dateISO" required>
+          <% schedule.forEach((item) => { %>
+            <option value="<%= item.dateISO %>" <%= item.dateISO === dateISO ? 'selected' : '' %>><%= item.dateLabel %> — <%= item.title %></option>
+          <% }) %>
+        </select>
+        <label>Время</label>
+        <select name="time">
+          <option value="15:00" <%= time === '15:00' ? 'selected' : '' %>>15:00</option>
+          <option value="09:00" <%= time === '09:00' ? 'selected' : '' %>>09:00</option>
+          <option value="14:00" <%= time === '14:00' ? 'selected' : '' %>>14:00</option>
+          <option value="16:00" <%= time === '16:00' ? 'selected' : '' %>>16:00</option>
+        </select>
+        <button type="submit">Показать имена</button>
+      </form>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Имена</th><th>Контакт</th><th>Источник</th><th>Статус</th></tr></thead>
+          <tbody>
+            <% if (!slotOrders.length) { %>
+              <tr><td colspan="5">На выбранный слот заявок пока нет.</td></tr>
+            <% } %>
+            <% slotOrders.forEach((o) => { %>
+              <tr>
+                <td>#<%= o.id %></td>
+                <td><%= o.names_to_pray %></td>
+                <td><%= o.customer_name || o.full_name || '-' %></td>
+                <td><%= o.source %></td>
+                <td><span class="tag <%= o.status %>"><%= o.status %></span></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Последние заявки</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Источник</th><th>Дата</th><th>Хурал</th><th>Имена</th><th>Контакт</th><th>Сумма</th><th>Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% orders.forEach((o) => { %>
+              <tr>
+                <td>#<%= o.id %></td>
+                <td><%= o.source %></td>
+                <td><%= o.date_label %> <%= o.time %></td>
+                <td><%= o.khural_title %></td>
+                <td><%= o.names_to_pray %></td>
+                <td><%= o.customer_name || o.full_name || '-' %><br/><small><%= o.customer_phone || o.customer_email || '' %></small></td>
+                <td><%= o.amount_rub %> ₽</td>
+                <td><span class="tag <%= o.status %>"><%= o.status %></span></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
