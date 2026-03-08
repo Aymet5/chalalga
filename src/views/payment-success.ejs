@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Оплата принята</title>
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+  <div class="container" style="max-width: 700px;">
+    <div class="card" style="text-align:center;">
+      <h1>✅ Спасибо за подношение</h1>
+      <p>Платёж по заявке #<%= order || '' %> обрабатывается. После подтверждения заявка будет отмечена как оплаченная.</p>
+      <a href="/"><button>Вернуться на сайт</button></a>
+    </div>
+  </div>
+</body>
+</html>

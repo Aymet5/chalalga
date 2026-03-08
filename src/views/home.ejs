@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Заказ молебня — Иволгинский дацан</title>
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+  <header class="topbar" id="home">
+    <nav class="nav container nav-row">
+      <a href="#home">Главная</a>
+      <a href="#about">О дугане</a>
+      <a href="#teachings">Хуралы</a>
+      <a href="#services">Заказать</a>
+      <a href="#contact">Контакты</a>
+      <a class="admin-link" href="/admin/login">Вход админа</a>
+    </nav>
+  </header>
+
+  <section class="hero-banner">
+    <div class="hero-overlay">
+      <p class="eyebrow">Аныхни Цогчен Дуган · Иволгинский дацан</p>
+      <h1>Молебны и подача имён онлайн</h1>
+      <p>Быстро оформите заявку, выберите хурал и внесите подношение через ЮKassa.</p>
+      <div class="hero-actions">
+        <a class="cta-primary" href="#services">Заказать молебень</a>
+        <a class="cta-secondary" href="#teachings">Смотреть расписание</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="card temple" id="about">
+      <h2><%= templeInfo.title %></h2>
+      <p><%= templeInfo.description %></p>
+      <p class="muted"><%= templeInfo.note %></p>
+    </section>
+
+    <section class="card" id="teachings">
+      <h2>Популярные хуралы</h2>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon">☸</div>
+          <h3>Найман Гэгээн</h3>
+          <p>Устранение препятствий и благополучие.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">🪷</div>
+          <h3>Алтан Гэрэл</h3>
+          <p>Семейный достаток и защита от препятствий.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">🕯</div>
+          <h3>Ежедневные благопожелания</h3>
+          <p>09:00, 14:00, 16:00 — ежедневные молебны.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">💛</div>
+          <h3>Отошо хурал</h3>
+          <p>Молитвы о здоровье и исцелении.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="grid home-grid" id="services">
+      <section class="card form-card">
+        <h2>Быстрый заказ молебня</h2>
+        <form method="post" action="/order">
+          <label>Ваше имя</label>
+          <input name="customerName" required placeholder="Например: Баир Будаев" />
+          <label>Телефон</label>
+          <input name="phone" placeholder="+7..." />
+          <label>Email</label>
+          <input name="email" type="email" placeholder="example@mail.ru" />
+          <label>Дата и хурал (15:00)</label>
+          <select name="dateISO" required>
+            <% schedule.forEach((item) => { %>
+              <option value="<%= item.dateISO %>"><%= item.dateLabel %> — <%= item.title %></option>
+            <% }) %>
+          </select>
+          <label>Имена, за кого читать молебень</label>
+          <textarea name="namesToPray" required placeholder="Имена через запятую"></textarea>
+          <label>Комментарий</label>
+          <textarea name="comment" placeholder="Пожелания, уточнения"></textarea>
+          <label>Сумма подношения (₽)</label>
+          <input name="amountRub" type="number" min="1" value="300" required />
+          <button type="submit">Перейти к оплате</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Ежедневные хуралы</h2>
+        <div class="stack">
+          <% dailyKhurals.forEach((item) => { %>
+            <article class="tile">
+              <div class="tile-top"><strong><%= item.time %></strong> — <span><%= item.title %></span></div>
+              <p><%= item.purpose %></p>
+              <small><%= item.details %></small>
+            </article>
+          <% }) %>
+        </div>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2>Хуралы второй половины марта (15:00)</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Дата</th><th>Хурал</th><th>Назначение</th></tr>
+          </thead>
+          <tbody>
+            <% schedule.forEach((item) => { %>
+              <tr>
+                <td><%= item.dateLabel %></td>
+                <td><%= item.title %></td>
+                <td><%= item.purpose %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="contact">
+      <h2>Контакты и запись через Telegram</h2>
+      <p>Для оперативной подачи имён также можно использовать Telegram-бота. При оплате на сайте заявка сразу попадает в общую систему.</p>
+      <pre class="schedule-text"><%= scheduleText %></pre>
+    </section>
+  </div>
+</body>
+</html>

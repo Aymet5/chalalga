@@ -1,20 +1,45 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Telegram-бот + админ-сайт для молебнов
 
-# Run and deploy your AI Studio app
+Теперь логика такая:
+- **все заказы принимаются только через Telegram-бота**,
+- сайт используется как **закрытая админ-панель** (вход по логину/паролю).
 
-This contains everything you need to run your app locally.
+## Что умеет система
 
-View your app in AI Studio: https://ai.studio/apps/79faa12b-0f64-49f0-811d-3e196540a46c
+### Telegram-бот (для прихожан и лам)
+- Подача заявки на молебень (дата → имена → комментарий → сумма).
+- Генерация ссылки оплаты через ЮKassa.
+- Просмотр своих заявок.
+- Просмотр имён на конкретный хурал/час для лам:
+  - кнопка «🕯 Имена на хурал (ламы)»
+  - команда `/slot YYYY-MM-DD HH:MM`
 
-## Run Locally
+### Админ-сайт
+- Корневой адрес `/` ведёт на `/admin/login`.
+- Доступ только после авторизации админа.
+- Дашборд, отчёты, фильтр имён по хуралу/часу.
+- Экспорт CSV и печатные формы.
 
-**Prerequisites:**  Node.js
+## Быстрый старт
 
+```bash
+npm install
+cp .env.example .env
+npm run dev
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Переменные окружения
+
+- `BOT_TOKEN` — токен Telegram-бота.
+- `YOOKASSA_SHOP_ID`, `YOOKASSA_SECRET_KEY` — ключи ЮKassa.
+- `BASE_URL` — публичный URL проекта.
+- `PORT` — порт HTTP-сервера.
+- `DB_PATH` — путь SQLite.
+- `ADMIN_LOGIN`, `ADMIN_PASSWORD` — учётка админа.
+- `SESSION_SECRET` — секрет подписи сессии.
+
+## Важное по безопасности
+
+- Не храните токены и ключи в Git.
+- Если токен Telegram был опубликован — перевыпустите через BotFather.
+- Для продакшена включите TLS и защиту webhook ЮKassa.

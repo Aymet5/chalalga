@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Печать имён на хурал</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h1, h2 { margin: 0 0 8px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+    .muted { color: #555; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Список имён на хурал</h1>
+  <h2><%= khural ? khural.dateLabel : dateISO %> — <%= time %> <%= khural ? `— ${khural.title}` : '' %></h2>
+  <p class="muted">Распечатайте лист и используйте перед началом хурала.</p>
+
+  <table>
+    <thead><tr><th>#</th><th>Имена</th><th>Подающий</th><th>Статус</th></tr></thead>
+    <tbody>
+      <% if (!slotOrders.length) { %>
+        <tr><td colspan="4">Нет заявок на выбранный хурал.</td></tr>
+      <% } %>
+      <% slotOrders.forEach((o) => { %>
+        <tr>
+          <td>#<%= o.id %></td>
+          <td><%= o.names_to_pray %></td>
+          <td><%= o.customer_name || o.full_name || '-' %></td>
+          <td><%= o.status %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <script>window.print()</script>
+</body>
+</html>
