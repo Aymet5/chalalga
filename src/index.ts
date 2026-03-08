@@ -5,6 +5,7 @@ import { bot } from './bot.js';
 import { config } from './config.js';
 import { markOrderPaid } from './db.js';
 import { registerWeb } from './web.js';
+import { getPayment } from './yookassa.js';
 
 const app = express();
 app.use(express.json());
@@ -30,6 +31,19 @@ app.post('/yookassa/webhook', async (req, res) => {
   const paymentId = req.body?.object?.id;
 
   if (event === 'payment.succeeded' && paymentId) {
+    let payment;
+
+    try {
+      payment = await getPayment(paymentId);
+    } catch (error) {
+      console.error('Failed to verify YooKassa payment status:', error);
+      return res.status(502).json({ ok: false });
+    }
+
+    if (payment.id !== paymentId || payment.status !== 'succeeded' || payment.paid !== true) {
+      return res.status(200).json({ ok: true });
+    }
+
     const order = markOrderPaid(paymentId);
 
     if (order?.user_id && bot) {
